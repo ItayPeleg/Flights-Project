@@ -2,7 +2,7 @@
 <!-- PROJECT LOGO -->
 <div align="center">
  <a href="https://github.com/ItayPeleg/Flights-Project">
- <img src="resources/static/assets/images/photo-1628964178609-aec11c666040.jpeg" alt="Logo" width="350" height="200">
+ <img src="src/resources/static/assets/images/photo-1628964178609-aec11c666040.jpeg" alt="Logo" width="350" height="200">
  </a>
 
 <h1 align="center">Flights-Project</h1>
