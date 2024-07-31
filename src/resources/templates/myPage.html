@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>My Page</title>
+    <link rel="stylesheet" href="https://r.mobirisesite.com/438362/assets/bootstrap/css/bootstrap.min.css?rnd=1715518936129">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/438362/assets/dropdown/css/style.css?rnd=1715518936129">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/438362/assets/socicon/css/styles.css?rnd=1715518936129">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@400;700&display=swap&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@400;700&display=swap&display=swap"></noscript>
+    <link rel="stylesheet" href="https://r.mobirisesite.com/438362/assets/css/mbr-additional.css?rnd=1715518936129" type="text/css">
+</head>
+
+<body>
+<header>
+    <section th:insert="~{partials/header :: header}"></section>
+</header><br><br><br><br><br><br>
+
+<img class="background-image" th:src="@{/assets/images/plane2.jpeg}" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.3; background-size: cover; background-position: center;" alt="Plane">
+
+<div class="container mt-5">
+    <!-- Success Message Section -->
+    <div th:if="${message}" class="alert alert-success" role="alert">
+        <span th:text="${message}"></span>
+    </div>
+
+    <!-- User Information Section -->
+    <h2 class="mt-4">My Information</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">User ID</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Username</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:object="${user}">
+                <form th:action="@{/myPage/edit/{id}(id=${user.id})}" method="post">
+                    <input type="hidden" th:field="*{id}" />
+                    <td th:text="*{id}">User ID</td>
+                    <td><input type="text" class="form-control" th:field="*{firstName}" maxlength="20" pattern="[A-Za-z]+" title="Only letters are allowed" required /></td>
+                    <td><input type="text" class="form-control" th:field="*{lastName}" maxlength="20" pattern="[A-Za-z]+" title="Only letters are allowed" required /></td>
+                    <td><input type="text" class="form-control" th:field="*{address}" maxlength="50" pattern=".*\d+.*" title="Address must contain both text and a number" required /></td>
+                    <td><input type="text" class="form-control" th:field="*{phoneNo}" maxlength="10" pattern="\d{10}" title="Phone number must be exactly 10 digits" required /></td>
+                    <td><input type="email" class="form-control" th:field="*{email}" maxlength="50" required /></td>
+                    <td th:text="*{username}">Username</td>
+                    <td class="actions-cell">
+                        <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                    </td>
+                </form>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Purchases Management Table -->
+    <h2 class="mt-4">My Purchases</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Purchase ID</th>
+                <th scope="col">Purchase Date</th>
+                <th scope="col">Total Amount</th>
+                <th scope="col">Customer Name</th>
+                <th scope="col">Customer Email</th>
+                <th scope="col">Customer Phone</th>
+                <th scope="col">Origin</th>
+                <th scope="col">Destination</th>
+                <th scope="col">Departure Time</th>
+                <th scope="col">Tickets</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="purchase : ${purchases}">
+                <td th:text="${purchase.id}">Purchase ID</td>
+                <td th:text="${#temporals.format(purchase.purchaseDate, 'yyyy-MM-dd HH:mm')}">Purchase Date</td>
+                <td th:text="${purchase.totalAmount}">Total Amount</td>
+                <td th:text="${purchase.customer.firstName + ' ' + purchase.customer.lastName}">Customer Name</td>
+                <td th:text="${purchase.customer.email}">Customer Email</td>
+                <td th:text="${purchase.customer.phoneNo}">Customer Phone</td>
+
+                <td th:text="${#lists.isEmpty(purchase.tickets) ? '-' : purchase.tickets[0].flight.originCountry.name}">Origin</td>
+                <td th:text="${#lists.isEmpty(purchase.tickets) ? '-' : purchase.tickets[0].flight.destinationCountry.name}">Destination</td>
+                <td th:text="${#lists.isEmpty(purchase.tickets) ? '-' : #temporals.format(purchase.tickets[0].flight.departureTime, 'yyyy-MM-dd HH:mm')}">Departure Time</td>
+
+                <td th:text="${purchase.tickets.size()}">Tickets</td>
+                <td>
+                    <div th:if="${#lists.isEmpty(purchase.tickets) || purchase.tickets[0].flight.departureTime.isBefore(T(java.time.LocalDateTime).now())}">
+                        <span class="text-muted">Flight Passed</span>
+                    </div>
+                    <div th:unless="${#lists.isEmpty(purchase.tickets) || purchase.tickets[0].flight.departureTime.isBefore(T(java.time.LocalDateTime).now())}">
+                        <form th:action="@{/myPage/cancelPurchase/{id}(id=${purchase.id})}" method="post">
+                            <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+</body>
+
+</html>

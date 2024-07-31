@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Ticket</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/438362/assets/dropdown/css/style.css?rnd=1715518936129">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@400;700&display=swap&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@400;700&display=swap&display=swap"></noscript>
+    <link rel="stylesheet" href="https://r.mobirisesite.com/438362/assets/css/mbr-additional.css?rnd=1715518936129" type="text/css">
+
+    <style>
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+            background-size: cover;
+            background-position: center;
+        }
+        .form-section {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .alert {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <section th:insert="~{partials/header :: header}"></section>
+</header><br><br><br><br><br><br>
+
+<img class="background-image" th:src="@{/assets/images/plane2.jpeg}" alt="Plane">
+
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 form-section">
+            <h1 class="text-center mb-4">Purchase Ticket</h1>
+            <form th:action="@{/purchaseTicket}" method="post">
+                <input type="hidden" name="flightId" th:value="${flight.id}"/>
+                <input type="hidden" name="totalTickets" th:value="${totalTickets}"/>
+                <input type="hidden" name="flightPrice" th:value="${flightPrice}"/>
+
+                <!-- Displaying flight and ticket information -->
+                <div class="form-group">
+                    <label for="flightId">Flight ID</label>
+                    <input type="text" id="flightId" class="form-control" th:value="${flight.id}" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="airline">Airline</label>
+                    <input type="text" id="airline" class="form-control" th:value="${flight.airline.name}" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="originCountry">Origin</label>
+                    <input type="text" id="originCountry" class="form-control" th:value="${flight.originCountry.name}" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="destinationCountry">Destination</label>
+                    <input type="text" id="destinationCountry" class="form-control" th:value="${flight.destinationCountry.name}" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="departureTime">Departure Time</label>
+                    <input type="text" id="departureTime" class="form-control" th:value="${#temporals.format(flight.departureTime, 'yyyy-MM-dd HH:mm')}" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="landingTime">Landing Time</label>
+                    <input type="text" id="landingTime" class="form-control" th:value="${#temporals.format(flight.landingTime, 'yyyy-MM-dd HH:mm')}" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="cabinType">Cabin Type</label>
+                    <input type="text" id="cabinType" class="form-control" th:value="${flight.cabinType}" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="numberOfTickets">Number of Tickets</label>
+                    <input type="text" id="numberOfTickets" class="form-control" th:value="${totalTickets}" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="totalPrice">Total Price</label>
+                    <input type="text" id="totalPrice" class="form-control"
+                           th:value="${(totalTickets != null and flightPrice != null) ? totalTickets * flightPrice : 'Invalid input'}" readonly/>
+                </div>
+
+                <div class="form-group">
+                    <label for="customerName">Customer Name</label>
+                    <input type="text" id="customerName" name="customerName" class="form-control"
+                           th:value="${customer != null ? customer.firstName + ' ' + customer.lastName : 'Guest'}" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="creditCardNo">Credit Card Number</label>
+                    <input type="text" id="creditCardNo" name="creditCardNo" class="form-control"
+                           placeholder="Enter your credit card number"
+                           pattern="\d{16}" title="Credit card number must be exactly 16 digits"
+                           required/>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Confirm Purchase</button>
+            </form>
+
+            <!-- Display message -->
+            <div th:if="${message != null and !message.isEmpty()}" class="alert alert-info" role="alert" th:text="${message}"></div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout :: layout(~{::title}, ~{::body})}">
+<head>
+    <title th:replace="${title}">Layout Title</title>
+</head>
+<body>
+<h1>Layout H1</h1>
+<div th:replace="${content}">
+    <p>Layout content</p>
+</div>
+
+<footer th:insert="~{partials/footer :: footer}"></footer>
+
+</body>
+</html>

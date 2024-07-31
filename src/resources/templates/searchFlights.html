@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="generator" content="Mobirise v5.9.13, a.mobirise.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <title>Flights</title>
+    <link rel="stylesheet" href="https://r.mobirisesite.com/438362/assets/web/assets/mobirise-icons2/mobirise2.css?rnd=1715518936128">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/438362/assets/bootstrap/css/bootstrap.min.css?rnd=1715518936129">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/438362/assets/bootstrap/css/bootstrap-grid.min.css?rnd=1715518936129">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/438362/assets/bootstrap/css/bootstrap-reboot.min.css?rnd=1715518936129">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/438362/assets/parallax/jarallax.css?rnd=1715518936129">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/438362/assets/dropdown/css/style.css?rnd=1715518936129">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/438362/assets/socicon/css/styles.css?rnd=1715518936129">
+    <link rel="stylesheet" href="https://r.mobirisesite.com/438362/assets/theme/css/style.css?rnd=1715518936129">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@400;700&display=swap&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@400;700&display=swap&display=swap"></noscript>
+    <link rel="stylesheet" href="https://r.mobirisesite.com/438362/assets/css/mbr-additional.css?rnd=1715518936129" type="text/css">
+
+</head>
+    <style>
+        .form-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            width: 125px;
+            text-align: right;
+            margin-right: 5px;
+            margin-left: 5px;
+        }
+
+        .sublabel {
+            color: gray;
+            margin: 4px;
+            font-size: 11px;
+        }
+
+        input[type="text"],
+        input[type="date"] {
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #0050A0;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="date"] {
+            position: relative;
+        }
+
+        input[type="date"]:before {
+            content: attr(placeholder);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #fff;
+            color: rgba(0, 0, 0, 0.65);
+            pointer-events: none;
+            line-height: 1.5;
+            padding: 10px 0.5rem 0 0.5rem;
+        }
+
+        input[type="date"]:focus:before,
+        input[type="date"]:not([value=""]):before {
+            display: none;
+        }
+
+        .custom-bg {
+            background-color: #F7F7F9;
+    </style>
+
+<body>
+
+<header>
+    <section th:insert="~{partials/header :: header}"></section>
+</header><br><br><br><br><br><br>
+
+<img class="background-image" th:src="@{/assets/images/plane2.jpeg}" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.3; background-size: cover; background-position: center;" alt="Plane">
+<div class="container my-4">
+    <div class="card custom-bg w-100 p-4 d-flex" style="justify-content: center;">
+        <div class="row">
+            <div class="pb-3 h3 text-left">Flight Search &#128747;</div>
+        </div>
+        <!-- Flight Search Form -->
+        <form id="flight-form" method="post" th:action="@{/flights/search}">
+            <div class="row">
+                <div class="form-group col-md align-items-start flex-column">
+                    <label class="d-inline-flex" for="origin">From</label>
+                    <input class="form-control" id="origin" name="origin" placeholder="Country or Airport"
+                           type="text">
+                </div>
+                <div class="form-group col-md align-items-start flex-column">
+                    <label class="d-inline-flex" for="destination">To</label>
+                    <input class="form-control" id="destination" name="destination" placeholder="Country or Airport"
+                           type="text">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md align-items-start flex-column">
+                    <label class="d-inline-flex" for="departureDate">Departure Date</label>
+                    <input class="form-control" id="departureDate" name="departureDate" required type="date"
+                           th:min="${todayDate}" />
+                </div>
+                <div class="form-group col-md align-items-start flex-column">
+                    <label class="d-inline-flex" for="returnDate">Return Date</label>
+                    <input class="form-control" id="returnDate" name="returnDate" type="date"
+                           th:min="${todayDate}" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-3 align-items-start flex-column">
+                    <label class="d-inline-flex col-auto" for="adults">Adults <span class="sublabel">12+</span></label>
+                    <select class="form-select" id="adults" name="adults">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                    </select>
+                </div>
+                <div class="form-group col-lg-3 align-items-start flex-column">
+                    <label class="d-inline-flex col-auto" for="children">Children <span class="sublabel">2-11</span></label>
+                    <select class="form-select" id="children" name="children">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                    </select>
+                </div>
+                <div class="form-group col-lg-3 align-items-start flex-column">
+                    <label class="d-inline-flex col-auto" for="infants">Infants <span class="sublabel">less than 2</span></label>
+                    <select class="form-select" id="infants" name="infants">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+
+
+            <div class="row">
+                <div class="form-group col-lg-3 align-items-start flex-column">
+                    <label class="d-inline-flex" for="cabin">Cabin</label>
+                    <select class="form-select" id="cabin" name="cabin" required>
+                        <option value="ECONOMY">Economy</option>
+                        <option value="BUSINESS">Business</option>
+                        <option value="FIRST">First</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="text-left col-auto">
+                    <button class="btn btn-primary" type="submit">Search flights</button>
+                </div>
+            </div>
+            </div>
+        </form>
+
+        <!-- Display Search Results Table-->
+        <div th:if="${not #lists.isEmpty(flights)}">
+            <h2 class="text-center mt-4">Search Results</h2>
+            <form th:action="@{/purchase}" method="get">
+                <table class="table table-striped table-bordered w-100">
+                    <thead>
+                    <tr>
+                        <th scope="col">Flight ID</th>
+                        <th scope="col">Departure Time</th>
+                        <th scope="col">Origin</th>
+                        <th scope="col">Destination</th>
+                        <th scope="col">Departure Airport</th>
+                        <th scope="col">Arrival Airport</th>
+                        <th scope="col">Airline</th>
+                        <th scope="col">Cabin</th>
+                        <th scope="col">Remaining Tickets</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Tickets</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="flightData : ${flights}">
+                        <td class="align-middle" th:text="${flightData.flight.id}">Flight ID</td>
+                        <td class="align-middle" th:text="${flightData.formattedDepartureTime}">Departure Time</td>
+                        <td class="align-middle" th:text="${flightData.flight.originCountry.name}">Origin</td>
+                        <td class="align-middle" th:text="${flightData.flight.destinationCountry.name}">Destination</td>
+                        <td class="align-middle" th:text="${flightData.flight?.departureAirport?.code}">Departure Airport</td>
+                        <td class="align-middle" th:text="${flightData.flight?.arrivalAirport?.code}">Arrival Airport</td>
+                        <td class="align-middle" th:text="${flightData.flight.airline.name}">Airline</td>
+                        <td class="align-middle" th:text="${flightData.flight.cabinType}">Cabin</td>
+                        <td class="align-middle" th:text="${flightData.flight.remainingTickets}">Remaining Tickets</td>
+                        <td class="align-middle" th:text="${flightData.flight.price}">Price</td>
+                        <td class="align-middle">
+                            <input type="hidden" name="flightId" th:value="${flightData.flight.id}"/>
+                            <input type="hidden" name="flightPrice" th:value="${flightData.flight.price}"/>
+                            <input class="w-75" type="number" name="totalTickets" min="1" max="${flightData.flight.remainingTickets}" placeholder="Tickets" />
+                        </td>
+                        <td class="align-middle text-center">
+                            <button type="submit" class="btn btn-primary btn-sm" style="white-space: nowrap;">Choose</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+
+
+
+<!--         Display message if no flights found-->
+        <div th:if="${#lists.isEmpty(flights)}">
+            <p class="text-center mt-4">No flights found for the given criteria.</p>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
