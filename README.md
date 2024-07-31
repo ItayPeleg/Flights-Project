@@ -53,6 +53,7 @@ You can check out the site in the following video:
    Your browser does not support the video tag.
  </video>
 </div>
+[Watch the Demo Video](resources/static/assets/video/spring-flights-project.mp4)
 
 <!-- CONTACT -->
 ## Contact
