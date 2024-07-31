@@ -195,7 +195,6 @@
                         <th scope="col">Cabin</th>
                         <th scope="col">Remaining Tickets</th>
                         <th scope="col">Price</th>
-                        <th scope="col">Tickets</th>
                         <th scope="col">Action</th>
                     </tr>
                     </thead>
@@ -211,18 +210,20 @@
                         <td class="align-middle" th:text="${flightData.flight.cabinType}">Cabin</td>
                         <td class="align-middle" th:text="${flightData.flight.remainingTickets}">Remaining Tickets</td>
                         <td class="align-middle" th:text="${flightData.flight.price}">Price</td>
-                        <td class="align-middle">
+                        <td class="align-middle text-center">
                             <input type="hidden" name="flightId" th:value="${flightData.flight.id}"/>
                             <input type="hidden" name="flightPrice" th:value="${flightData.flight.price}"/>
-                            <input class="w-75" type="number" name="totalTickets" min="1" max="${flightData.flight.remainingTickets}" placeholder="Tickets" />
-                        </td>
-                        <td class="align-middle text-center">
                             <button type="submit" class="btn btn-primary btn-sm" style="white-space: nowrap;">Choose</button>
                         </td>
                     </tr>
                     </tbody>
+                    <!-- Display error message if present -->
+                    <div th:if="${error}" style="color: red;">
+                        <p th:text="${error}"></p>
+                    </div>
                 </table>
             </form>
+
         </div>
 
 

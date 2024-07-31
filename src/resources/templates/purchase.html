@@ -46,8 +46,7 @@
             <h1 class="text-center mb-4">Purchase Ticket</h1>
             <form th:action="@{/purchaseTicket}" method="post">
                 <input type="hidden" name="flightId" th:value="${flight.id}"/>
-                <input type="hidden" name="totalTickets" th:value="${totalTickets}"/>
-                <input type="hidden" name="flightPrice" th:value="${flightPrice}"/>
+                <input type="hidden" name="flightPrice" id="flightPrice" th:value="${flightPrice}"/>
 
                 <!-- Displaying flight and ticket information -->
                 <div class="form-group">
@@ -80,12 +79,16 @@
                 </div>
                 <div class="form-group">
                     <label for="numberOfTickets">Number of Tickets</label>
-                    <input type="text" id="numberOfTickets" class="form-control" th:value="${totalTickets}" readonly/>
+                    <input type="number" id="numberOfTickets" name="totalTickets" class="form-control"
+                           min="1"
+                           max="${flight.remainingTickets}"
+                           placeholder="Tickets"
+                           required/>
                 </div>
                 <div class="form-group">
                     <label for="totalPrice">Total Price</label>
                     <input type="text" id="totalPrice" class="form-control"
-                           th:value="${(totalTickets != null and flightPrice != null) ? totalTickets * flightPrice : 'Invalid input'}" readonly/>
+                           value="Waiting for number of tickets" readonly/>
                 </div>
 
                 <div class="form-group">
@@ -103,6 +106,7 @@
                 <button type="submit" class="btn btn-primary btn-block">Confirm Purchase</button>
             </form>
 
+
             <!-- Display message -->
             <div th:if="${message != null and !message.isEmpty()}" class="alert alert-info" role="alert" th:text="${message}"></div>
         </div>
@@ -113,5 +117,26 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const numberOfTicketsInput = document.getElementById('numberOfTickets');
+        const flightPriceInput = document.getElementById('flightPrice');
+        const totalPriceInput = document.getElementById('totalPrice');
+
+        // Parse flight price from hidden input
+        const flightPrice = parseFloat(flightPriceInput.value);
+
+        numberOfTicketsInput.addEventListener('input', function() {
+            const totalTickets = parseInt(numberOfTicketsInput.value, 10);
+
+            if (!isNaN(totalTickets) && totalTickets > 0) {
+                const totalPrice = totalTickets * flightPrice;
+                totalPriceInput.value = totalPrice.toFixed(2);
+            } else {
+                totalPriceInput.value = 'Waiting for number of tickets';
+            }
+        });
+    });
+</script>
 </body>
 </html>
