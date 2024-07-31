@@ -40,7 +40,7 @@ public class PurchaseController {
 
     @GetMapping("/purchase")
     public String showPurchasePage(@RequestParam("flightId") Long flightId,
-                                   @RequestParam("totalTickets") Integer totalTickets,
+                                   @RequestParam(value = "totalTickets", required = false) Integer totalTickets,
                                    @RequestParam("flightPrice") Double flightPrice,
                                    @RequestParam(value = "message", required = false) String message,
                                    Model model) {
