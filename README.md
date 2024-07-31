@@ -54,7 +54,7 @@ You can check out the site in the following video:
  </video>
 </div>
 
-[Watch the Demo Video](resources/static/assets/video/spring-flights-project.mp4)
+[Watch the Demo Video](src/resources/static/assets/video/spring-flights-project.mp4)
 
 <!-- CONTACT -->
 ## Contact
