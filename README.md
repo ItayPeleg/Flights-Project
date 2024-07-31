@@ -45,16 +45,9 @@ It includes features such as user registration, flight search, and a secure purc
 
 ### Demo Video
 
-You can check out the site in the following video:
+You can download and view the demo video from the following link:
 
-<div align="center">
- <video width="320" height="240" controls>
-   <source src="https://github.com/ItayPeleg/Flights-Project/raw/main/src/resources/static/assets/video/spring-flights-project.mp4" type="video/mp4">
-   Your browser does not support the video tag.
- </video>
-</div>
-
-[Watch the Demo Video](src/resources/static/assets/video/spring-flights-project.mp4)
+[Download Demo Video](https://github.com/ItayPeleg/Flights-Project/raw/main/src/resources/static/assets/video/spring-flights-project.mp4)
 
 <!-- CONTACT -->
 ## Contact
